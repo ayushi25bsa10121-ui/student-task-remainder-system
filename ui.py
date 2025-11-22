@@ -21,13 +21,13 @@ def handle_choice(choice: str, manager: TaskManager) -> bool:
         title = input("Title: ").strip()
         description = input("Description: ").strip()
         due_date = input("Due date (YYYY-MM-DD): ").strip()
-        user_time = input("Due time (e.g., 2 PM / 5:30 PM): ").strip()
-        due_time = parse_time_input(user_time)
-
-        if due_time is None:
-           print("Invalid time format. Please try again.")
-           return False
-
+        due_time = input("Due time (HH:MM, 24-hour): ").strip()
+        try:
+            datetime.strptime(due_date, "%Y-%m-%d")
+            datetime.strptime(due_time, "%H:%M")
+        except ValueError:
+            print("Invalid date or time format. Please try again.")
+            return False
         task = manager.add_task(title, description, due_date, due_time)
         print(f"Task added with ID {task.id}.")
 
